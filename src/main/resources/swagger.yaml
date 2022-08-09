@@ -1,0 +1,268 @@
+swagger: '2.0'
+info:
+  description: |-
+    API Just'IF
+  version: 1.0.0
+  title: API Just'IF
+host: localhost
+basePath: /justif
+schemes:
+  - http
+produces:
+  - application/json;charset=utf-8
+tags:
+  - name: map
+    description: ''
+  - name: planning
+    description: ''
+  - name: tour
+    description: ''
+  - name: graph
+    description: ''
+paths:
+  /map/intersection:
+    post:
+      tags:
+        - map
+      summary: "Get information about intersections of the Street Map."
+      description: ""
+      operationId: "getIntersectionsById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "intersectionsIds"
+          description: "IDs of the intersections."
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "string"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Intersection"
+        "404":
+          description: "Intersection not found."
+
+  /map:
+    post:
+      tags:
+        - map
+      summary: "Upload a map file."
+      description: "The file must to be an XML file and follows the Street Map format."
+      operationId: "uploadMap"
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "formData"
+          name: "file"
+          description: "XML file which represents the map."
+          required: true
+          type: "string"
+          format: "binary"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+            $ref: "#/definitions/StreetMap"
+        "400":
+          description: "Invalid file for upload."
+        "422":
+          description: "Invalid XML file."
+        "500":
+          description: "Error while reading or parsing the uploaded file."
+
+  /planning:
+    post:
+      tags:
+        - planning
+      summary: "Upload a planning file."
+      description: "The file must to be an XML file and follows the Planning Request format."
+      operationId: "uploadPlanning"
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "formData"
+          name: "file"
+          description: "XML file which represents the planning requests."
+          required: true
+          type: "string"
+          format: "binary"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+            $ref: "#/definitions/PlanningRequest"
+        "400":
+          description: "Invalid file for upload."
+        "422":
+          description: "Invalid XML file."
+        "500":
+          description: "Error while reading or parsing the uploaded file."
+
+  /tour/{tourStrategy}:
+    get:
+      tags:
+        - tour
+      summary: "Get the optimized tour for the planning request uploaded."
+      description: ""
+      operationId: "getTour"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "tourStrategy"
+          in: "path"
+          description: "Strategy used to compute the optimized Tour."
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Successful operation."
+          schema:
+            $ref: "#/definitions/Tour"
+        "400":
+          description: "Unknown strategy given in input."
+
+  /graph:
+    post:
+      tags:
+        - graph
+      summary: "Generate graph from StreetMap"
+      description: "Generate graph from StreetMap"
+      operationId: "generateGraph"
+      responses:
+        "200":
+          description: "Successful operation."
+
+  /graph/shortest-paths:
+    post:
+      tags:
+        - graph
+      summary: "Generate all shortest paths from graph"
+      description: "Generate all shortest paths from graph"
+      operationId: "shortestPathsGraph"
+      responses:
+        "200":
+          description: "Successful operation."
+
+definitions:
+  Path:
+    type: "string"
+  StreetMap:
+    type: "object"
+    properties:
+      latitudeMax:
+        type: "number"
+        format: "double"
+      latitudeMin:
+        type: "number"
+        format: "double"
+      longitudeMax:
+        type: "number"
+        format: "double"
+      longitudeMin:
+        type: "number"
+        format: "double"
+      intersections:
+        type: "object"
+        additionalProperties:
+          $ref: '#/definitions/Intersection'
+  Intersection:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      latitude:
+        type: "number"
+        format: "double"
+      longitude:
+        type: "number"
+        format: "double"
+      outgoingSegments:
+        type: "array"
+        items:
+          $ref: "#/definitions/Segment"
+  Segment:
+    type: "object"
+    properties:
+      length:
+        type: "number"
+        format: "double"
+      name:
+        type: "string"
+        format: "string"
+      origin:
+        type: "string"
+      destination:
+        type: "string"
+  Request:
+    type: "object"
+    properties:
+      pickupDuration:
+        type: "integer"
+        format: "long"
+      deliveryDuration:
+        type: "integer"
+        format: "long"
+      pickupAddress:
+        type: "string"
+      deliveryAddress:
+        type: "string"
+  PlanningRequest:
+    type: "object"
+    properties:
+      depot:
+        $ref: "#/definitions/Depot"
+      requests:
+        type: "array"
+        items:
+          $ref: "#/definitions/Request"
+      shortestTrips:
+        type: "object"
+        additionalProperties:
+          $ref: "#/definitions/Trip"
+  Depot:
+    type: "object"
+    properties:
+      address:
+        type: "string"
+      departureTime:
+        type: "string"
+  Trip:
+    type: "object"
+    properties:
+      segments:
+        type: "array"
+        items:
+          $ref: "#/definitions/Segment"
+      from:
+        type: "string"
+      to:
+        type: "string"
+      distance:
+        type: "number"
+        format: "double"
+  Tour:
+    type: "object"
+    properties:
+      length:
+        type: "number"
+        format: "double"
+      planning:
+        $ref: "#/definitions/PlanningRequest"
+      trips:
+        type: "array"
+        items:
+          $ref: "#/definitions/Trip"

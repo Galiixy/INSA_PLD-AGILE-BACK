@@ -1,0 +1,753 @@
+{
+	"info": {
+		"_postman_id": "5cbe5e25-e146-450e-ab9c-732fa16c5323",
+		"name": "Just'IF Integration Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Map",
+			"item": [
+				{
+					"name": "Upload Map",
+					"item": [
+						{
+							"name": "Upload Valid Map",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Map is correctly build\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData).not.to.be.undefined",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "src/test/postman/justif_files/smallMap.xml"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base}}/map",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"map"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload Invalid Map",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {",
+											"    pm.response.to.have.status(422);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "src/test/postman/justif_files/invalidMap.xml"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base}}/map",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"map"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload Empty File for Map",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "src/test/postman/justif_files/emptyFile.xml"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base}}/map",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"map"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload not XML Map",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "src/test/postman/justif_files/test.txt"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base}}/map",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"map"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Intersection Info",
+					"item": [
+						{
+							"name": "Get one Valid Intersection Info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Map is correctly build\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.not.eql(undefined)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n\t\"25175791\"\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/map/intersection",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"map",
+										"intersection"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get multiple Valid Intersection Info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Map is correctly build\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.not.eql(undefined)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    \"25175791\",\n    \"2129259178\",\n    \"26086130\",\n    \"2129259176\",\n    \"479185301\"\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/map/intersection",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"map",
+										"intersection"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get one Invalid Intersection Info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    \"111111111\"\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/map/intersection",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"map",
+										"intersection"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get one Invalid Intersection Info in multiple Valid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    \"111111111\",\n    \"2129259178\",\n    \"26086130\",\n    \"2129259176\",\n    \"479185301\"\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/map/intersection",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"map",
+										"intersection"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Planning",
+			"item": [
+				{
+					"name": "Upload Planning",
+					"item": [
+						{
+							"name": "Upload Valid Planning",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Planning is correctly build\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData).not.to.be.undefined",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "src/test/postman/justif_files/requestsSmall1.xml"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base}}/planning",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"planning"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload Invalid Planning",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {",
+											"    pm.response.to.have.status(422);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "src/test/postman/justif_files/invalidRequests.xml"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base}}/planning",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"planning"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload Empty File for Planning",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "src/test/postman/justif_files/emptyFile.xml"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base}}/planning",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"planning"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload not XML Planning",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "src/test/postman/justif_files/test.txt"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base}}/planning",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"planning"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Graph",
+			"item": [
+				{
+					"name": "Generate Graph Structure",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/graph",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"graph"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate shortest paths from Graph Structure",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/graph/shortest-paths",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"graph",
+								"shortest-paths"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tour",
+			"item": [
+				{
+					"name": "Get Optimized Tour with Branch & Bound Strategy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Tour is correctly build\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).not.to.be.undefined",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/tour/branch-bound",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"tour",
+								"branch-bound"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Optimized Tour with Simulated Annealing Strategy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Tour is correctly build\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).not.to.be.undefined",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/tour/simulated-annealing",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"tour",
+								"simulated-annealing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Optimized Tour with Wrong Strategy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/tour/unknown-strategy",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"tour",
+								"unknown-strategy"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base",
+			"value": "http://localhost:8080/justif"
+		}
+	]
+}

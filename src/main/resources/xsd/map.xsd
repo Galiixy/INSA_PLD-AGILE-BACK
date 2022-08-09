@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="map" type="mapType"/>
+  <xs:complexType name="intersectionType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="id" use="required"/>
+        <xs:attribute type="xs:string" name="latitude" use="required"/>
+        <xs:attribute type="xs:string" name="longitude" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="segmentType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="destination" use="required"/>
+        <xs:attribute type="xs:string" name="length" use="required"/>
+        <xs:attribute type="xs:string" name="name" use="required"/>
+        <xs:attribute type="xs:string" name="origin" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="mapType">
+    <xs:sequence>
+      <xs:element type="intersectionType" name="intersection" maxOccurs="unbounded" minOccurs="2"/>
+      <xs:element type="segmentType" name="segment" maxOccurs="unbounded" minOccurs="2"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

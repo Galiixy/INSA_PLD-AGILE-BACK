@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="planningRequest" type="planningRequestType"/>
+  <xs:complexType name="depotType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="address"/>
+        <xs:attribute type="xs:string" name="departureTime"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="requestType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="pickupAddress" use="required"/>
+        <xs:attribute type="xs:string" name="deliveryAddress" use="required"/>
+        <xs:attribute type="xs:string" name="pickupDuration" use="required"/>
+        <xs:attribute type="xs:string" name="deliveryDuration" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="planningRequestType">
+    <xs:sequence>
+      <xs:element type="depotType" name="depot" maxOccurs="1" minOccurs="1"/>
+      <xs:element type="requestType" name="request" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
